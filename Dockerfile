@@ -1,5 +1,9 @@
+FROM maven:3.8.6-openjdk-17-slim AS build
+WORKDIR /app
+COPY . .
+RUN mvn clean package
+
 FROM openjdk:17-jdk-slim
-ARG JAR_FILE=target/zoologico-0.0.1-SNAPSHOT.jar
-COPY ${JAR_FILE} zoologico.jar
+COPY --from=build /app/target/zoologico-*.jar zoologico.jar
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "zoologico.jar"]
