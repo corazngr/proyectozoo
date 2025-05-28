@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Alimentación | Zookora</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link
+		href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Winky+Rough:ital,wght@0,300..900;1,300..900&family=Winky+Sans:ital,wght@0,300..900;1,300..900&display=swap"
+		rel="stylesheet">
+	<link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/128/7757/7757762.png">
+	<link
+		href="https://fonts.googleapis.com/css2?family=Anton&family=Cal+Sans&family=Denk+One&family=Honk&family=Luckiest+Guy&family=NTR&family=National+Park:wght@200..800&family=Outfit:wght@100..900&family=Winky+Rough:ital,wght@0,300..900;1,300..900&family=Winky+Sans:ital,wght@0,300..900;1,300..900&display=swap"
+		rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+	<style>
+		body {
+			background-color: #f5f1e3;
+			font-family: 'Outfit', sans-serif;
+		}
+
+		.sidebar {
+			height: 100vh;
+			background-color: #2f5233;
+			color: white;
+			padding-top: 20px;
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 220px;
+		}
+
+		.sidebar a {
+			color: white;
+			text-decoration: none;
+			display: flex;
+			align-items: center;
+			padding: 15px;
+			font-size: 18px;
+			transition: background-color 0.3s;
+		}
+
+		.sidebar a i {
+			margin-right: 10px;
+		}
+
+		.sidebar a:hover {
+			background-color: #3e7042;
+		}
+
+		.content {
+			margin-left: 215px;
+			padding: 30px;
+			position: relative;
+			z-index: 1;
+		}
+
+		.card {
+			margin-bottom: 20px;
+			border: none;
+			border-radius: 15px;
+		}
+
+		.table-container {
+			margin-bottom: 40px;
+		}
+
+		.form-container {
+			max-width: 1000px;
+			margin: 0 auto;
+			padding: 30px;
+			background-color: #ffffff;
+			border-radius: 10px;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+		}
+
+		.form-label {
+			font-weight: bold;
+			font-size: 17px;
+			font-family: "National Park", 'Segoe UI';
+			color: #2f5233;
+		}
+
+		.image-upload {
+			background-color: #e8f5e9;
+			border-radius: 10px;
+			padding: 15px;
+			display: flex;
+			justify-content: center;
+			margin-bottom: 1.5rem;
+			border: 2px dashed #4caf50;
+		}
+
+		.image-upload input[type="file"] {
+			font-size: 16px;
+		}
+
+		.image-upload label {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			font-size: 16px;
+			font-weight: bold;
+			color: #4caf50;
+			cursor: pointer;
+		}
+
+		.image-upload label i {
+			font-size: 24px;
+			margin-bottom: 5px;
+		}
+
+		.image-upload input[type="file"]:focus {
+			outline: none;
+			border-color: #4caf50;
+		}
+	</style>
+</head>
+
+<body>
+
+	<div class="container-fluid">
+		<!-- Sidebar -->
+		<nav class="col-md-2 sidebar d-flex flex-column justify-content-between">
+			<div>
+				<h3 class="text-center">🌿ZooKora 🐾</h3>
+				<hr>
+				<a href="/cuidadores/iniciocuidador"><i class="bi bi-house-door"></i> Inicio</a>
+				<a href="/cuidadores/animalescuidador"><i class="bi bi-bug"></i> Animales</a>
+				<a href="/cuidadores/especiescuidador"><i class="bi bi-file-earmark-person"></i> Especies</a>
+				<a href="/cuidadores/habitatscuidador"><i class="bi bi-tree"></i> Hábitats</a>
+				<a href="/cuidadores/alimentacioncuidador"><i class="bi bi-cup"></i> Alimentación</a>
+				<a href="/cuidadores/saludcuidador"><i class="bi bi-heart-pulse"></i> Salud</a>
+			</div>
+			<!-- Botón Cerrar Sesión -->
+			<div class="text-center mb-3">
+				<a href="#" class="btn btn-light text-dark"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</a>
+			</div>
+		</nav>
+
+		<!-- Contenido principal -->
+		<main class="col-md-10 content">
+			<h1 class="mb-4" style="font-family: Cal Sans; font-size: 45px;">| Registrar Planes de Alimentación 🥩🍃
+			</h1>
+
+			<!-- Tabla de Alimentación Registrada -->
+			<div class="table-container">
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th>ID Alimentación</th>
+							<th>ID Animal</th>
+							<th>Fecha</th>
+							<th>Tipo de Alimento</th>
+							<th>Cantidad</th>
+							<th>Observaciones</th>
+							<th>Acciones</th>
+						</tr>
+					</thead>
+					<tbody id="tablaAlimentacion">
+						<!-- Datos de alimentación se cargarán aquí -->
+						<tr th:each="alimentacion : ${alimentaciones}">
+							<td th:text="${alimentacion.id_alimentacion}"></td>
+							<td th:text="${alimentacion.animales.nombre}"></td>
+							<td th:text="${alimentacion.fecha}"></td>
+							<td th:text="${alimentacion.tipo_alimento}"></td>
+							<td th:text="${alimentacion.cantidad}"></td>
+							<td th:text="${alimentacion.observaciones}"></td>
+							<td>
+								<button class="btn btn-warning btn-sm">
+									<i class="bi bi-pencil-fill"></i> <!-- Ícono de lápiz -->
+								</button>
+								<button class="btn btn-danger btn-sm ms-2">
+									<i class="bi bi-trash-fill"></i> <!-- Ícono de basura -->
+								</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<!-- Formulario de Alimentación -->
+			<div class="form-container">
+				<h3 class="mb-4" style="font-weight: bold;">Plan de Alimentación</h3>
+				<form id="formAlimentacion" th:action="@{/cuidadores/agregaralimentacion}" method="post"
+					th:object="${alimentacion}">
+					<div class="mb-3">
+						<label for="id_animal" class="form-label">| Nombre Animal: 🦁</label>
+						<select class="form-select" id="id_animal" th:field="*{id_animal}" required>
+						    <option value="">Seleccione un animal</option>
+						    <option th:each="animal : ${animales}"
+						            th:value="${animal.id_animal}"
+						            th:text="${animal.nombre + ' (ID: ' + animal.id_animal + ')'}">
+						    </option>
+						</select>
+					</div>
+					<div class="mb-3">
+						<label for="fecha" class="form-label">| Fecha: 📅</label>
+						<input type="date" class="form-control" id="fecha" th:field="*{fecha}" required>
+					</div>
+					<div class="mb-3">
+						<label for="tipo_alimento" class="form-label">| Tipo de Alimento: 🥬🍖</label>
+						<input type="text" class="form-control" id="tipo_alimento" th:field="*{tipo_alimento}" required>
+					</div>
+					<div class="mb-3">
+						<label for="cantidad" class="form-label">| Cantidad: 📏</label>
+						<input type="text" class="form-control" id="cantidad" th:field="*{cantidad}" required>
+					</div>
+					<div class="mb-3">
+						<label for="observaciones" class="form-label">| Observaciones: 📝</label>
+						<textarea class="form-control" id="observaciones" th:field="*{observaciones}"
+							rows="3"></textarea>
+					</div>
+
+					<button type="submit" class="btn btn-success">Agregar</button>
+				</form>
+			</div>
+		</main>
+	</div>
+	</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+	<script>
+		const alimentacion = [
+			{id: 1, id_animal: 101, fecha: '2025-04-25', tipo_alimento: 'Carne', cantidad: '2 kg', observaciones: 'Agregar suplementos vitamínicos'},
+			{id: 2, id_animal: 102, fecha: '2025-04-26', tipo_alimento: 'Hierba', cantidad: '5 kg', observaciones: 'Preferir fresca'}
+		];
+
+		function cargarTabla() {
+			const tabla = document.getElementById('tablaAlimentacion');
+			tabla.innerHTML = '';
+			alimentacion.forEach(registro => {
+				const row = document.createElement('tr');
+				row.innerHTML = `
+        <td>${registro.id}</td>
+        <td>${registro.id_animal}</td>
+        <td>${registro.fecha}</td>
+        <td>${registro.tipo_alimento}</td>
+        <td>${registro.cantidad}</td>
+        <td>${registro.observaciones}</td>
+        <td>
+          <button class="btn btn-warning" onclick="editarAlimentacion(${registro.id})">Editar</button>
+          <button class="btn btn-danger" onclick="eliminarAlimentacion(${registro.id})">Eliminar</button>
+        </td>
+      `;
+				tabla.appendChild(row);
+			});
+		}
+
+		function editarAlimentacion(id) {
+			const registro = alimentacion.find(a => a.id === id);
+			if (registro) {
+				document.getElementById('id_animal').value = registro.id_animal;
+				document.getElementById('fecha').value = registro.fecha;
+				document.getElementById('tipo_alimento').value = registro.tipo_alimento;
+				document.getElementById('cantidad').value = registro.cantidad;
+				document.getElementById('observaciones').value = registro.observaciones;
+			}
+		}
+
+		function actualizarAlimentacion() {
+			const id_animal = document.getElementById('id_animal').value;
+			const fecha = document.getElementById('fecha').value;
+			const tipo_alimento = document.getElementById('tipo_alimento').value;
+			const cantidad = document.getElementById('cantidad').value;
+			const observaciones = document.getElementById('observaciones').value;
+
+			const registroIndex = alimentacion.findIndex(a => a.id_animal == id_animal && a.fecha == fecha);
+			if (registroIndex !== -1) {
+				alimentacion[registroIndex].tipo_alimento = tipo_alimento;
+				alimentacion[registroIndex].cantidad = cantidad;
+				alimentacion[registroIndex].observaciones = observaciones;
+				cargarTabla();
+			}
+		}
+
+		function eliminarAlimentacion(id) {
+			const registroIndex = alimentacion.findIndex(a => a.id === id);
+			if (registroIndex !== -1) {
+				alimentacion.splice(registroIndex, 1);
+				cargarTabla();
+			}
+		}
+
+		function agregarAlimentacion() {
+			const id_animal = parseInt(document.getElementById('id_animal').value);
+			const fecha = document.getElementById('fecha').value;
+			const tipo_alimento = document.getElementById('tipo_alimento').value;
+			const cantidad = document.getElementById('cantidad').value;
+			const observaciones = document.getElementById('observaciones').value;
+			const nuevoId = alimentacion.length > 0 ? alimentacion[alimentacion.length - 1].id + 1 : 1;
+
+			alimentacion.push({id: nuevoId, id_animal, fecha, tipo_alimento, cantidad, observaciones});
+			cargarTabla();
+		}
+
+		window.onload = cargarTabla;
+	</script>
+
+</body>
+
+</html>
